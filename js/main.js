@@ -29,6 +29,7 @@ const COMMENT_TEXT = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+const PHOTOS_COUNT = 25;
 
 const getRandomInt = (a, b) => {
   if (a < 0 || b < 0) {
@@ -61,6 +62,6 @@ const createPhoto = (photo, number) => {
   };
   return photo;
 };
-const photoDataBase = Array.from({length: 25}, createPhoto);
+const photoDataBase = Array.from({length: PHOTOS_COUNT}, createPhoto);
 console.log(photoDataBase);
 isStringLengthAllow('qwert', 4);
