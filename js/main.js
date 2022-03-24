@@ -1,1 +1,1 @@
-import {photoDataBase} from './utils/database.js';
+import './utils/show-photos.js';
