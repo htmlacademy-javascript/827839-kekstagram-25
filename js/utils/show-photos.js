@@ -1,4 +1,5 @@
 import {photoDataBase} from './database.js';
+import {showFullPhoto} from './show-full-photo.js';
 
 const photoTemplate = document.querySelector('#picture').content;
 const photosBlock = document.querySelector('.pictures');
@@ -13,6 +14,7 @@ const createNewCard = (photo) => {
   const newCardComments = newCard.querySelector('.picture__comments');
   newCardComments.textContent = photo.comments.length;
   newPhotosFragment.appendChild(newCard);
+  return newCard;
 };
 
 photoDataBase.forEach((photo) => {
@@ -20,3 +22,11 @@ photoDataBase.forEach((photo) => {
 });
 
 photosBlock.append(newPhotosFragment);
+
+photosBlock.onclick = (evt) => {
+  if (evt.target.nodeName === 'IMG') {
+    const currentPhoto = evt.target.parentNode;
+    evt.preventDefault();
+    showFullPhoto(currentPhoto);
+  }
+};
