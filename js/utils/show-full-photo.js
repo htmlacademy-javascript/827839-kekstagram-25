@@ -1,4 +1,5 @@
 import {photoDataBase} from './database.js';
+import {openModal, closeModal} from './utils.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
@@ -9,18 +10,18 @@ const bigPictureCommentsCount = bigPicture.querySelector('.comments-count');
 const bigPictureCommentsCountBlock = bigPicture.querySelector('.social__comment-count');
 const bigPictureCommentsLoadBlock = bigPicture.querySelector('.comments-loader');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
-const body = document.querySelector('body');
 
-const showFullPhoto = (photoElement) => {
-  bigPicture.classList.remove('hidden');
-  body.classList.add('modal-open');
+const showFullPhoto = (index) => {
+  openModal(bigPicture);
+
   bigPictureCommentsCountBlock.classList.add('hidden');//удалить позже
   bigPictureCommentsLoadBlock.classList.add('hidden');//удалить позже
 
-  const photoImg = photoElement.querySelector('.picture__img');
-  bigPictureImg.src = photoImg.src;
+  // const photoImg = photoElement.querySelector('.picture__img');
+  bigPictureImg.src = photoDataBase[index].url;
 
-  const currentPhoto = photoDataBase.find((photo) => photoImg.src.includes(photo.url));
+  // const currentPhoto = photoDataBase.find((photo) => photoImg.src.includes(photo.url));
+  const currentPhoto = photoDataBase[index];
 
   bigPictureCommentsCount.textContent = currentPhoto.comments.length;
   bigPictureLikes.textContent = currentPhoto.likes;
@@ -49,19 +50,15 @@ const showFullPhoto = (photoElement) => {
   });
   bigPictureComments.appendChild(commentsFragment);
 
-  const closeModal = () => {
-    bigPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-  };
-  bigPictureExit.onclick = () => closeModal();
+  bigPictureExit.onclick = () => closeModal(bigPicture);
   document.onkeydown = (evt) => {
     if (evt.key === 'Escape') {
-      closeModal();
+      closeModal(bigPicture);
     }
   };
   document.onclick = (evt) => {
     if (evt.target.classList.contains('overlay') || evt.target.classList.contains('big-picture__preview')) {
-      closeModal();
+      closeModal(bigPicture);
     }
   };
 };

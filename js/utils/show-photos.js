@@ -21,12 +21,24 @@ photoDataBase.forEach((photo) => {
   createNewCard(photo);
 });
 
-photosBlock.append(newPhotosFragment);
-
-photosBlock.onclick = (evt) => {
-  if (evt.target.nodeName === 'IMG') {
-    const currentPhoto = evt.target.parentNode;
-    evt.preventDefault();
-    showFullPhoto(currentPhoto);
-  }
+const showPhotos = () => {
+  photosBlock.append(newPhotosFragment);
+  const pictures = photosBlock.querySelectorAll('.picture');
+  pictures.forEach((picture, index) => {
+    picture.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      showFullPhoto(index);
+    });
+  });
 };
+
+
+// photosBlock.onclick = (evt) => {
+//   if (evt.target.nodeName === 'IMG') {
+//     const currentPhoto = evt.target.parentNode;
+//     evt.preventDefault();
+//     showFullPhoto(currentPhoto);
+//   }
+// };
+
+export {showPhotos};
