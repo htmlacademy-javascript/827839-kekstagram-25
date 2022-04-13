@@ -1,3 +1,5 @@
+import {createSlider, addEffectsListener, removeEffectsListener} from './effects.js';
+import {addScaleListeners, removeScaleListeners} from './scale-control.js';
 import {openModal, closeModal, isEscKey, isOversideClick} from './utils.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
@@ -11,6 +13,8 @@ const closeUploadModal = () => {
   closeModal(uploadModal);
   removeHideUploadModalHandlers();
   removeToggleListeningKeydownEvent();
+  removeScaleListeners();
+  removeEffectsListener();
   uploadForm.reset();
 };
 
@@ -64,6 +68,9 @@ const onUploadButtonClick = () => {
     openModal(uploadModal);
     addHideUploadModalHandlers();
     toggleListeningKeydownEvent();
+    addScaleListeners();
+    addEffectsListener();
+    createSlider();
   });
 };
 
