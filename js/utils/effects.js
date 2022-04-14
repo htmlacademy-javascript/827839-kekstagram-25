@@ -22,8 +22,7 @@ const onEffectClick = (evt) => {
   picture.classList.remove(picture.classList[1]);
   slider.classList.remove('hidden');
   if (evt.target.closest('#effect-none')) {
-    slider.classList.add('hidden');
-    picture.removeAttribute('style');
+    resetEffects();
   } else if (evt.target.closest('#effect-chrome')) {
     picture.classList.add('effects__preview--chrome');
     slider.noUiSlider.updateOptions({
@@ -98,4 +97,10 @@ const removeEffectsListener = () => {
   effectsContainer.removeEventListener('click', onEffectClick);
 };
 
-export {createSlider, addEffectsListener, removeEffectsListener};
+function resetEffects () {
+  slider.classList.add('hidden');
+  picture.removeAttribute('style');
+  picture.classList.remove(picture.classList[1]);
+}
+
+export {createSlider, addEffectsListener, removeEffectsListener, resetEffects};
