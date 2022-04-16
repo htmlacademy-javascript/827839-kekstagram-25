@@ -5,7 +5,10 @@ import {setUploadButtonClick} from './utils/upload-new-foto.js';
 import {setUploadFormSubmit} from './utils/upload-form.js';
 
 // showPhotos(photoDataBase);
-getPhotos(showPhotos, showError);
+getPhotos((photos) => {
+  showPhotos(photos);
+  // console.log(photos);
+}, showError);
 
 setUploadButtonClick();
 createSlider();
