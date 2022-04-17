@@ -1,6 +1,6 @@
-// import {photoDataBase} from './database.js';
 import {openModal, closeModal, isEscKey, isOversideClick} from './utils.js';
 
+const INSTANT_COMMENTS_COUNT = 5;
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img').querySelector('img');
 const bigPictureExit = bigPicture.querySelector('.big-picture__cancel');
@@ -29,7 +29,7 @@ const showFullPhoto = (data, index) => {
   let commentsIterator = 0;
   function loadComments () {
     const commentsFragment = document.createDocumentFragment();
-    for (let i = commentsIterator; i < commentsIterator + 5 && i < currentPhoto.comments.length; i++) {
+    for (let i = commentsIterator; i < commentsIterator + INSTANT_COMMENTS_COUNT && i < currentPhoto.comments.length; i++) {
       const newComment = document.createElement('li');
       newComment.classList.add('social__comment');
       const newCommentAvatar = document.createElement('img');
@@ -46,7 +46,7 @@ const showFullPhoto = (data, index) => {
       commentsFragment.appendChild(newComment);
     }
     bigPictureComments.appendChild(commentsFragment);
-    commentsIterator += 5;
+    commentsIterator += INSTANT_COMMENTS_COUNT;
     if (commentsIterator >= currentPhoto.comments.length) {
       commentsIterator = currentPhoto.comments.length;
       bigPictureCommentsLoader.classList.add('hidden');

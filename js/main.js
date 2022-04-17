@@ -1,15 +1,15 @@
-import {createSlider} from './utils/effects.js';
 import {getPhotos} from './utils/server.js';
 import {showError, showPhotos} from './utils/show-photos.js';
+import {setPhotoListFilter} from './utils/photo-list-filter.js';
 import {setUploadButtonClick} from './utils/upload-new-foto.js';
 import {setUploadFormSubmit} from './utils/upload-form.js';
+import {createSlider} from './utils/effects.js';
 
-// showPhotos(photoDataBase);
 getPhotos((photos) => {
   showPhotos(photos);
-  // console.log(photos);
+  setPhotoListFilter(photos);
 }, showError);
 
 setUploadButtonClick();
-createSlider();
 setUploadFormSubmit();
+createSlider();
