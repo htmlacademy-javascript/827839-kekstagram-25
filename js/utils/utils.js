@@ -28,4 +28,12 @@ const getRandomArrayElement = (array) => array[getRandomInt(0, array.length - 1)
 
 const isStringLengthAllow = (someString, maxLength) => someString.length <= maxLength;
 
-export {openModal,closeModal, isEscKey, isOversideClick, isOversideMessageClick, getRandomInt, getRandomArrayElement, isStringLengthAllow};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {openModal,closeModal, isEscKey, isOversideClick, isOversideMessageClick, getRandomInt, getRandomArrayElement, isStringLengthAllow, debounce};

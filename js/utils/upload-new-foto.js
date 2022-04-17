@@ -5,9 +5,15 @@ import {openModal, closeModal, isEscKey, isOversideClick} from './utils.js';
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadModal =uploadForm.querySelector('.img-upload__overlay');
 const uploadModalExit = uploadForm.querySelector('#upload-cancel');
+const previewImg = uploadForm.querySelector('img');
 const fileInput = uploadForm.querySelector('#upload-file');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const descriptionInput = uploadForm.querySelector('.text__description');
+
+const showUploadPreview = () => {
+  const file = fileInput.files[0];
+  previewImg.src = URL.createObjectURL(file);
+};
 
 const closeUploadModal = () => {
   closeModal(uploadModal);
@@ -67,6 +73,7 @@ function removeToggleListeningKeydownEvent () {
 const setUploadButtonClick = () => {
   fileInput.addEventListener('change', () => {
     openModal(uploadModal);
+    showUploadPreview();
     addHideUploadModalHandlers();
     toggleListeningKeydownEvent();
     addScaleListeners();

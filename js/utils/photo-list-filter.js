@@ -1,5 +1,5 @@
 import {showPhotos} from './show-photos.js';
-import {getRandomInt} from './utils.js';
+import {debounce, getRandomInt} from './utils.js';
 
 const RANDOM_PHOTOS_COUNT = 10;
 
@@ -23,7 +23,7 @@ const setPhotoListFilter = (photos) => {
     filterRandomButton.classList.remove('img-filters__button--active');
     filterDiscussedButton.classList.remove('img-filters__button--active');
     clearPhotoList();
-    showPhotos(photos);
+    debounce(showPhotos(photos));
   });
 
   filterRandomButton.addEventListener('click', () => {
@@ -40,8 +40,10 @@ const setPhotoListFilter = (photos) => {
       }
     }
     const filteredPhotos = randomIndexArray.map((index) => photos[index]);
+    // debounce(() => {
     clearPhotoList();
     showPhotos(filteredPhotos);
+    // }, 2000);
   });
 
   filterDiscussedButton.addEventListener('click', () => {
@@ -49,8 +51,10 @@ const setPhotoListFilter = (photos) => {
     filterRandomButton.classList.remove('img-filters__button--active');
     filterDiscussedButton.classList.add('img-filters__button--active');
     const filteredPhotos= photos.slice().sort((a,b) => b.comments.length - a.comments.length);
+    // debounce(() => {
     clearPhotoList();
     showPhotos(filteredPhotos);
+    // });
   });
 
 };
