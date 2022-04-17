@@ -27,7 +27,7 @@ const showFullPhoto = (data, index) => {
 
   function loadComments () {
     const commentsFragment = document.createDocumentFragment();
-    for (let i = bigPictureComments.children.length; i < bigPictureComments.children.length + INSTANT_COMMENTS_COUNT && i < currentPhoto.comments.length; i++) {
+    for (let i = bigPictureComments.children.length; i < Math.min(bigPictureComments.children.length + INSTANT_COMMENTS_COUNT, currentPhoto.comments.length); i++) {
       const newComment = document.createElement('li');
       newComment.classList.add('social__comment');
       const newCommentAvatar = document.createElement('img');
