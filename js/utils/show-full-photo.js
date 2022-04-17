@@ -14,7 +14,6 @@ const bigPictureDescription = bigPicture.querySelector('.social__caption');
 
 const showFullPhoto = (data, index) => {
   openModal(bigPicture);
-  // const currentPhoto = photoDataBase.find((photo) => photoImg.src.includes(photo.url));
   const currentPhoto = data[index];
   bigPictureImg.src = currentPhoto.url;
   bigPictureDescription.textContent = currentPhoto.description;
@@ -26,10 +25,9 @@ const showFullPhoto = (data, index) => {
     bigPictureComments.children[i].remove();
   }
 
-  let commentsIterator = 0;
   function loadComments () {
     const commentsFragment = document.createDocumentFragment();
-    for (let i = commentsIterator; i < commentsIterator + INSTANT_COMMENTS_COUNT && i < currentPhoto.comments.length; i++) {
+    for (let i = bigPictureComments.children.length; i < bigPictureComments.children.length + INSTANT_COMMENTS_COUNT && i < currentPhoto.comments.length; i++) {
       const newComment = document.createElement('li');
       newComment.classList.add('social__comment');
       const newCommentAvatar = document.createElement('img');
@@ -46,16 +44,12 @@ const showFullPhoto = (data, index) => {
       commentsFragment.appendChild(newComment);
     }
     bigPictureComments.appendChild(commentsFragment);
-    commentsIterator += INSTANT_COMMENTS_COUNT;
-    if (commentsIterator >= currentPhoto.comments.length) {
-      commentsIterator = currentPhoto.comments.length;
+    if (bigPictureComments.children.length === currentPhoto.comments.length) {
       bigPictureCommentsLoader.classList.add('hidden');
-
     }
-    bigPictureCommentsCurrentCount.textContent = commentsIterator;
+    bigPictureCommentsCurrentCount.textContent = bigPictureComments.children.length;
   }
   loadComments();
-
   bigPictureCommentsLoader.addEventListener('click', loadComments);
 
   const closeFullPhotoModal = () => {
