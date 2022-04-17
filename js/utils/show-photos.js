@@ -27,7 +27,7 @@ const showPhotos = (data) => {
   pictures.forEach((picture, index) => {
     picture.addEventListener('click', (evt) => {
       evt.preventDefault();
-      showFullPhoto(index);
+      showFullPhoto(data, index);
     });
   });
 };
