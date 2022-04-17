@@ -27,7 +27,8 @@ const showFullPhoto = (data, index) => {
 
   function loadComments () {
     const commentsFragment = document.createDocumentFragment();
-    for (let i = bigPictureComments.children.length; i < Math.min(bigPictureComments.children.length + INSTANT_COMMENTS_COUNT, currentPhoto.comments.length); i++) {
+    const newCommentsCount = Math.min(bigPictureComments.children.length + INSTANT_COMMENTS_COUNT, currentPhoto.comments.length);
+    for (let i = bigPictureComments.children.length; i < newCommentsCount; i++) {
       const newComment = document.createElement('li');
       newComment.classList.add('social__comment');
       const newCommentAvatar = document.createElement('img');
@@ -44,10 +45,10 @@ const showFullPhoto = (data, index) => {
       commentsFragment.appendChild(newComment);
     }
     bigPictureComments.appendChild(commentsFragment);
-    if (bigPictureComments.children.length === currentPhoto.comments.length) {
+    if (newCommentsCount === currentPhoto.comments.length) {
       bigPictureCommentsLoader.classList.add('hidden');
     }
-    bigPictureCommentsCurrentCount.textContent = bigPictureComments.children.length;
+    bigPictureCommentsCurrentCount.textContent = newCommentsCount;
   }
   loadComments();
   bigPictureCommentsLoader.addEventListener('click', loadComments);
