@@ -1,5 +1,6 @@
-import {photoDataBase} from './database.js';
 import {showFullPhoto} from './show-full-photo.js';
+
+const ALERT_SHOW_TIME = 4000;
 
 const photoTemplate = document.querySelector('#picture').content;
 const photosBlock = document.querySelector('.pictures');
@@ -17,11 +18,10 @@ const createNewCard = (photo) => {
   return newCard;
 };
 
-photoDataBase.forEach((photo) => {
-  createNewCard(photo);
-});
-
-const showPhotos = () => {
+const showPhotos = (data) => {
+  data.forEach((photo) => {
+    createNewCard(photo);
+  });
   photosBlock.append(newPhotosFragment);
   const pictures = photosBlock.querySelectorAll('.picture');
   pictures.forEach((picture, index) => {
@@ -31,14 +31,23 @@ const showPhotos = () => {
     });
   });
 };
+const showError = () => {
+  const errorElement = document.createElement('div');
+  errorElement.textContent = 'Не удалось получить данные';
+  errorElement.style.position = 'absolute';
+  errorElement.style.width = '80%';
+  errorElement.style.top = '45%';
+  errorElement.style.left = '10%';
+  errorElement.style.padding = '20px';
+  errorElement.style.backgroundColor = 'rgba(0,0,0,0.7)';
+  errorElement.style.border = '10px black solid';
+  errorElement.style.borderRadius = '25px';
+  errorElement.style.fontSize = '25px';
+  errorElement.style.fontWeight = 'bold';
+  errorElement.style.textAlign = 'center';
+  photosBlock.append(errorElement);
 
+  setTimeout(() => errorElement.remove(), ALERT_SHOW_TIME);
+};
 
-// photosBlock.onclick = (evt) => {
-//   if (evt.target.nodeName === 'IMG') {
-//     const currentPhoto = evt.target.parentNode;
-//     evt.preventDefault();
-//     showFullPhoto(currentPhoto);
-//   }
-// };
-
-export {showPhotos};
+export {showPhotos, showError};

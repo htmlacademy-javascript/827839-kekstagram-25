@@ -1,4 +1,4 @@
-import {createSlider, addEffectsListener, removeEffectsListener} from './effects.js';
+import {addEffectsListener, removeEffectsListener, resetEffects} from './effects.js';
 import {addScaleListeners, removeScaleListeners} from './scale-control.js';
 import {openModal, closeModal, isEscKey, isOversideClick} from './utils.js';
 
@@ -16,6 +16,7 @@ const closeUploadModal = () => {
   removeScaleListeners();
   removeEffectsListener();
   uploadForm.reset();
+  resetEffects();
 };
 
 const onEscUploadModalKeydown = (evt) => {
@@ -63,15 +64,14 @@ function removeToggleListeningKeydownEvent () {
   descriptionInput.removeEventListener('blur', addEscUploadModalHandler);
 }
 
-const onUploadButtonClick = () => {
+const setUploadButtonClick = () => {
   fileInput.addEventListener('change', () => {
     openModal(uploadModal);
     addHideUploadModalHandlers();
     toggleListeningKeydownEvent();
     addScaleListeners();
     addEffectsListener();
-    createSlider();
   });
 };
 
-export {onUploadButtonClick};
+export {setUploadButtonClick, closeUploadModal};
