@@ -28,11 +28,12 @@ const getRandomArrayElement = (array) => array[getRandomInt(0, array.length - 1)
 
 const isStringLengthAllow = (someString, maxLength) => someString.length <= maxLength;
 
-const debounce = (callback, timeoutDelay = 500) => {
+const debounce = (instantCallback, delayCallback, timeoutDelay = 2000) => {
   let timeoutId;
   return (...rest) => {
+    instantCallback();
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+    timeoutId = setTimeout(() => delayCallback.apply(this, rest), timeoutDelay);
   };
 };
 
