@@ -25,12 +25,12 @@ const closeUploadModal = () => {
   resetEffects();
 };
 
+const onUploadExitButton = () => closeUploadModal();
 const onEscUploadModalKeydown = (evt) => {
   if (isEscKey(evt)) {
     closeUploadModal();
   }
 };
-
 const onOversideUploadModalClick = (evt) => {
   if (isOversideClick(evt)) {
     closeUploadModal();
@@ -38,13 +38,13 @@ const onOversideUploadModalClick = (evt) => {
 };
 
 const addHideUploadModalHandlers = () => {
-  uploadModalExit.addEventListener('click', closeUploadModal);
+  uploadModalExit.addEventListener('click', onUploadExitButton);
   document.addEventListener('keydown', onEscUploadModalKeydown);
   document.addEventListener('click', onOversideUploadModalClick);
 };
 
 function removeHideUploadModalHandlers () {
-  uploadModalExit.removeEventListener('click', closeUploadModal);
+  uploadModalExit.removeEventListener('click', onUploadExitButton);
   document.removeEventListener('keydown', onEscUploadModalKeydown);
   document.removeEventListener('click', onOversideUploadModalClick);
 }

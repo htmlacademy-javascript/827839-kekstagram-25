@@ -28,7 +28,7 @@ const getRandomArrayElement = (array) => array[getRandomInt(0, array.length - 1)
 
 const isStringLengthAllow = (someString, maxLength) => someString.length <= maxLength;
 
-const debounce = (instantCallback, delayCallback, timeoutDelay = 2000) => {
+const debounce = (instantCallback, delayCallback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
     instantCallback();
