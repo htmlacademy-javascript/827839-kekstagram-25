@@ -1,27 +1,24 @@
-const scaleDownButton = document.querySelector('.scale__control--smaller');
-const scaleUpButton = document.querySelector('.scale__control--bigger');
+const scaleControl = document.querySelector('.scale');
 const scaleInput = document.querySelector('.scale__control--value');
 const picture = document.querySelector('.img-upload__preview');
+
+const MIN_SCALE_VALUE = 25;
+const MAX_SCALE_VALUE = 100;
+const SCALE_STEP = 25;
 let scaleValue = 100;
 
 const resizePicture = () => {
   picture.style.transform = `scale(${scaleValue/100})`;
 };
 
-const onScaleDownButtonClick = () => {
-  if (scaleValue >= 25) {
-    scaleValue -= 25;
-  } else {
-    scaleValue = 0;
+const onScaleControlClick = (evt) => {
+  if (evt.target.matches('.scale__control--bigger')) {
+    scaleValue += SCALE_STEP;
+    scaleValue = Math.min(scaleValue, MAX_SCALE_VALUE);
   }
-  scaleInput.value = `${scaleValue}%`;
-  resizePicture();
-};
-const onScaleUpButtonClick = () => {
-  if (scaleValue <= 75) {
-    scaleValue += 25;
-  } else {
-    scaleValue = 100;
+  if (evt.target.matches('.scale__control--smaller')) {
+    scaleValue -= SCALE_STEP;
+    scaleValue = Math.max(scaleValue, MIN_SCALE_VALUE);
   }
   scaleInput.value = `${scaleValue}%`;
   resizePicture();
@@ -29,13 +26,11 @@ const onScaleUpButtonClick = () => {
 
 const addScaleListeners = () => {
   scaleInput.value = '100%';
-  scaleDownButton.addEventListener('click', onScaleDownButtonClick);
-  scaleUpButton.addEventListener('click', onScaleUpButtonClick);
+  scaleControl.addEventListener('click', onScaleControlClick);
 };
 
 const removeScaleListeners = () => {
-  scaleDownButton.removeEventListener('click', onScaleDownButtonClick);
-  scaleUpButton.removeEventListener('click', onScaleUpButtonClick);
+  scaleControl.removeEventListener('click', onScaleControlClick);
 };
 
 export {addScaleListeners, removeScaleListeners};

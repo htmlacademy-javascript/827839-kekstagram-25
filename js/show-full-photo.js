@@ -12,6 +12,23 @@ const bigPictureCommentsLoader = bigPicture.querySelector('.comments-loader');
 const bigPictureDescription = bigPicture.querySelector('.social__caption');
 
 
+const createNewComment = (photo, index, fragment) => {
+  const newComment = document.createElement('li');
+  newComment.classList.add('social__comment');
+  const newCommentAvatar = document.createElement('img');
+  newCommentAvatar.classList.add('social__picture');
+  newCommentAvatar.src = photo.comments[index].avatar;
+  newCommentAvatar.alt = photo.comments[index].name;
+  newCommentAvatar.width = 35;
+  newCommentAvatar.height = 35;
+  newComment.appendChild(newCommentAvatar);
+  const newCommentText = document.createElement('p');
+  newCommentText.classList.add('social__text');
+  newCommentText.textContent = photo.comments[index].message;
+  newComment.appendChild(newCommentText);
+  fragment.appendChild(newComment);
+};
+
 const showFullPhoto = (data, index) => {
   openModal(bigPicture);
   const currentPhoto = data[index];
@@ -25,37 +42,26 @@ const showFullPhoto = (data, index) => {
     bigPictureComments.children[i].remove();
   }
 
-  function loadComments () {
+  const loadComments = () => {
     const commentsFragment = document.createDocumentFragment();
     const newCommentsCount = Math.min(bigPictureComments.children.length + INSTANT_COMMENTS_COUNT, currentPhoto.comments.length);
     for (let i = bigPictureComments.children.length; i < newCommentsCount; i++) {
-      const newComment = document.createElement('li');
-      newComment.classList.add('social__comment');
-      const newCommentAvatar = document.createElement('img');
-      newCommentAvatar.classList.add('social__picture');
-      newCommentAvatar.src = currentPhoto.comments[i].avatar;
-      newCommentAvatar.alt = currentPhoto.comments[i].name;
-      newCommentAvatar.width = 35;
-      newCommentAvatar.height = 35;
-      newComment.appendChild(newCommentAvatar);
-      const newCommentText = document.createElement('p');
-      newCommentText.classList.add('social__text');
-      newCommentText.textContent = currentPhoto.comments[i].message;
-      newComment.appendChild(newCommentText);
-      commentsFragment.appendChild(newComment);
+      createNewComment(currentPhoto, i, commentsFragment);
     }
     bigPictureComments.appendChild(commentsFragment);
     if (newCommentsCount === currentPhoto.comments.length) {
       bigPictureCommentsLoader.classList.add('hidden');
     }
     bigPictureCommentsCurrentCount.textContent = newCommentsCount;
-  }
+  };
+
   loadComments();
-  bigPictureCommentsLoader.addEventListener('click', loadComments);
+  const onCommentsLoaderClick = () => loadComments();
+  bigPictureCommentsLoader.addEventListener('click', onCommentsLoaderClick);
 
   const closeFullPhotoModal = () => {
     closeModal(bigPicture);
-    bigPictureCommentsLoader.removeEventListener('click', loadComments);
+    bigPictureCommentsLoader.removeEventListener('click', onCommentsLoaderClick);
     removeHideFullPhotoHandlers();
   };
   const onFullPhotoEscKeydown = (evt) => {

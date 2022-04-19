@@ -26,7 +26,7 @@ const setPhotoListFilter = (photos) => {
     },
     () => {
       clearPhotoList();
-      debounce(showPhotos(photos));
+      showPhotos(photos);
     })
   );
 
@@ -37,15 +37,15 @@ const setPhotoListFilter = (photos) => {
       filterDiscussedButton.classList.remove('img-filters__button--active');
     },
     () => {
-      const randomIndexArray = [];
-      while (randomIndexArray.length < RANDOM_PHOTOS_COUNT) {
+      const randomIndeces = [];
+      while (randomIndeces.length < RANDOM_PHOTOS_COUNT) {
         const newIndex = getRandomInt(0, photos.length - 1);
-        if (!randomIndexArray.includes(newIndex)) {
-          randomIndexArray.push(newIndex);
-          randomIndexArray.sort((a, b) => a - b);
+        if (!randomIndeces.includes(newIndex)) {
+          randomIndeces.push(newIndex);
+          randomIndeces.sort((a, b) => a - b);
         }
       }
-      const filteredPhotos = randomIndexArray.map((index) => photos[index]);
+      const filteredPhotos = randomIndeces.map((index) => photos[index]);
 
       clearPhotoList();
       showPhotos(filteredPhotos);

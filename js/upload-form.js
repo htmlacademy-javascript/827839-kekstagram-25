@@ -1,6 +1,7 @@
 import {sendNewPhoto} from './server.js';
 import {closeUploadModal} from './upload-new-foto.js';
 import {isEscKey, isOversideMessageClick} from './utils.js';
+
 const uploadForm = document.querySelector('.img-upload__form');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 
@@ -34,20 +35,52 @@ const showMessage = (result) => {
 };
 
 const pristine = new Pristine(uploadForm, {
-  classTo: 'img-upload__text',
-  errorTextParent: 'img-upload__text',
+  classTo: 'text__field-wrapper',
+  errorTextParent: 'text__field-wrapper',
+  errorTextClass: 'text__error'
 });
 
-const hashtagPattern = /^#[a-zA-Zа-яА-ЯёË0-9]{1,19}(\s#[a-zA-Zа-яА-ЯёË0-9]{1,19}){0,4}$/;
+const hashtagPattern = /^#/;
+let hashtagError = 'увы';
+const getHashtagError = () => hashtagError;
 
-const validateHashtag = () => hashtagPattern.test(hashtagInput.value) || hashtagInput.value === '';
+const validateHashtag = () => {
+  if (hashtagInput.value === '') {
+    return true;
+  }
 
-// const validateDescription = () => {};
+  const hashtags = hashtagInput.value.split(' ');
+  if (hashtags.length > 5) {
+    hashtagError =  'Не больше 5 хэштегов';
+    return false;
+  }
 
-const getHashtagError = () => 'Неправильный хэштег :('; // реализую более гибкую валидацию позже
+  const uniqueHashtags = new Set();
+  for (let i = 0; i < hashtags.length; i++) {
+    if (!hashtagPattern.test(hashtags[i])) {
+      hashtagError = `${i + 1}-й хэштег должен начинаться с #`;
+      return false;
+    }
+    if (hashtags[i] === '#') {
+      hashtagError = `${i + 1}-й не может состоять только из одной #`;
+      return false;
+    }
+    if (hashtags[i].length > 20) {
+      hashtagError = `${i + 1}-й хэштег должен быть не длиннее 20 символов, включая #`;
+      return false;
+    }
+    uniqueHashtags.add(hashtags[i].toLowerCase());
+  }
+
+  if (uniqueHashtags.size < hashtags.length) {
+    hashtagError = 'Один и тот же хэштег не может быть использован дважды';
+    return false;
+  }
+
+  return true;
+};
 
 pristine.addValidator(hashtagInput, validateHashtag, getHashtagError);
-// pristine.addValidator(descriptionInput, validateDescription, '');
 
 const setUploadFormSubmit = () => {
   uploadForm.addEventListener('submit', (evt) => {
