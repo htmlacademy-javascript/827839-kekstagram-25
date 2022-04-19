@@ -64,6 +64,8 @@ const showFullPhoto = (data, index) => {
     bigPictureCommentsLoader.removeEventListener('click', onCommentsLoaderClick);
     removeHideFullPhotoHandlers();
   };
+  const onFullPhotoExitClick = () => closeFullPhotoModal();
+
   const onFullPhotoEscKeydown = (evt) => {
     if (isEscKey(evt)) {
       closeFullPhotoModal();
@@ -74,12 +76,12 @@ const showFullPhoto = (data, index) => {
       closeFullPhotoModal();
     }
   };
-  bigPictureExit.addEventListener('click', closeFullPhotoModal);
+  bigPictureExit.addEventListener('click', onFullPhotoExitClick);
   document.addEventListener('keydown', onFullPhotoEscKeydown);
   document.addEventListener('click', onFullPhotoOversideClick);
 
   function removeHideFullPhotoHandlers () {
-    bigPictureExit.removeEventListener('click', closeFullPhotoModal);
+    bigPictureExit.removeEventListener('click', onFullPhotoExitClick);
     document.removeEventListener('keydown', onFullPhotoEscKeydown);
     document.removeEventListener('click', onFullPhotoOversideClick);
   }

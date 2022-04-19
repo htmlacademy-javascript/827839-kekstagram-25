@@ -11,6 +11,7 @@ const showMessage = (result) => {
   const messageButton = message.querySelector(`.${result}__button`);
   document.body.appendChild(message);
 
+  const onMessageButtonClick = () => removeMessage();
   const onEscMessageKeydown = (evt) => {
     if (isEscKey(evt)) {
       removeMessage();
@@ -21,14 +22,14 @@ const showMessage = (result) => {
       removeMessage();
     }
   };
-  messageButton.addEventListener('click', removeMessage);
+  messageButton.addEventListener('click', onMessageButtonClick);
   document.addEventListener('keydown', onEscMessageKeydown);
   document.addEventListener('click', onOversideMessageClick);
 
   function removeMessage () {
     const messageElement = document.querySelector(`.${result}`);
     messageElement.remove();
-    messageButton.removeEventListener('click', removeMessage);
+    messageButton.removeEventListener('click', onMessageButtonClick);
     document.removeEventListener('keydown', onEscMessageKeydown);
     document.removeEventListener('click', onOversideMessageClick);
   }
